@@ -1,0 +1,4 @@
+# Treasure Hunt (revival) has no runtime dependencies.
+# The engine (treasure_hunt.py), the CLI (run.py) and the browser version
+# (web/, via Pyodide) all run on the Python standard library.
+# For the test suite see requirements-dev.txt.
