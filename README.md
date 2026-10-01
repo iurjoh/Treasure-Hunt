@@ -7,10 +7,10 @@ backend, works on phone and desktop. The page loads Python itself
 ([Pyodide](https://pyodide.org), WebAssembly) and plays the exact same
 game engine as the terminal version.
 
-> **Status (2026-09-30):** revival branch, web port complete and tested.
-> Public deployment on Cloudflare Pages (free tier) is prepared but
-> waiting for the owner's go-ahead - this README will be updated with
-> the live URL when the game is published.
+> **Status (2026-10-01):** revival branch, web port complete and tested.
+> The game is live at https://treasure-hunt-due.pages.dev/web/ on
+> Cloudflare Pages (free tier); the page was opened and confirmed
+> reachable on 2026-10-01.
 
 ## Play
 
