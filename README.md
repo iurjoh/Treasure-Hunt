@@ -1,5 +1,7 @@
 # Treasure Hunt
 
+[Português (Brasil)](README.pt-BR.md) | **English**
+
 A Python terminal game, now running **in the browser** - no install, no
 backend, works on phone and desktop. The page loads Python itself
 ([Pyodide](https://pyodide.org), WebAssembly) and plays the exact same
