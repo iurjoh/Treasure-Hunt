@@ -4,10 +4,10 @@
 
 Um jogo de terminal em Python, agora rodando **no navegador** - sem instalação, sem backend, funciona no celular e no desktop. A página carrega o próprio Python ([Pyodide](https://pyodide.org), WebAssembly) e joga exatamente o mesmo motor de jogo da versão de terminal.
 
-> **Status (30/09/2026):** branch de revival, port web completo e testado.
-> O deploy público no Cloudflare Pages (nível gratuito) está preparado, mas
-> aguardando o aval do dono - este README será atualizado com
-> a URL ativa quando o jogo for publicado.
+> **Status (01/10/2026):** branch de revival, port web completo e testado.
+> O jogo está no ar em https://treasure-hunt-due.pages.dev/web/ no
+> Cloudflare Pages (nível gratuito); a página foi aberta e o alcance
+> confirmado em 01/10/2026.
 
 ## Jogar
 
