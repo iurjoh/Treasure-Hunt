@@ -1,10 +1,10 @@
-# Treasure-Hunt - portfolio revival review
+# Treasure-Hunt - Python game in the browser
 
 **English** | [Português (Brasil)](README.pt-BR.md)
 
 A Python treasure-grid game with a browser port using Pyodide. The terminal and browser share the game engine.
 
-Documentation draft, 2026-10-08. Public source; no publication or code change made by this review.
+Public academic project, live demo. README update in a draft PR; no runtime changes or merge in this documentation round.
 
 **Source / Código:** https://github.com/iurjoh/Treasure-Hunt
 
@@ -57,6 +57,10 @@ python3 -m http.server 8000
 ```
 
 Install pytest only in a development environment; game runtime uses standard library. Static server opens /web/.
+
+## Current stage and release identity
+
+The Python engine and web port are present in `main`, not only a revival branch. The live `/web/` page opened on 2026-10-08. The exact deployed source SHA is unverified; the inspected source commit above is not proof of host parity. Record that mapping and a complete browser round before calling a new release verified. Pyodide is an external first-load dependency; CDN failure recovery and complete offline play remain unverified.
 
 ## Deployment and roadmap
 
