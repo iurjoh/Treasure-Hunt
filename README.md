@@ -4,7 +4,7 @@
 
 A Python treasure-grid game with a browser port using Pyodide. The terminal and browser share the game engine.
 
-Public academic project, live demo. README update in a draft PR; no runtime changes or merge in this documentation round.
+Public academic project with a live demo.
 
 **Source / Código:** https://github.com/iurjoh/Treasure-Hunt
 
@@ -14,7 +14,7 @@ Public academic project, live demo. README update in a draft PR; no runtime chan
 
 Mobile capture prepared on 2026-10-08; repository upload is pending. No image embed is included until the asset exists.
 
-390x844, 2026-10-08. New capture supplied in this review package; upload together with the README.
+Mobile capture: 390x844, 2026-10-08. Repository upload remains pending.
 
 ## Idea and planning
 
