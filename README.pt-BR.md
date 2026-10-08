@@ -1,10 +1,10 @@
-# Treasure-Hunt - revisão para revival do portfólio
+# Treasure-Hunt - jogo Python no navegador
 
 **Português (Brasil)** | [English](README.md)
 
 Jogo Python de caça ao tesouro em grade, com port web Pyodide. Terminal e navegador compartilham engine.
 
-Draft documental, 08/10/2026. Código público; nenhuma publicação/alteração feita nesta revisão.
+Projeto acadêmico público com demo ao vivo. Atualização de README em PR draft; sem mudança de runtime nem merge nesta rodada.
 
 **Source / Código:** https://github.com/iurjoh/Treasure-Hunt
 
@@ -57,6 +57,10 @@ python3 -m http.server 8000
 ```
 
 Instalar pytest só no ambiente de desenvolvimento; jogo usa biblioteca padrão. Servidor estático abre /web/.
+
+## Estágio atual e identidade da release
+
+Motor Python e port web estão no `main`, não apenas em branch de revival. A página `/web/` abriu em 08/10/2026. SHA exato do deploy não confirmado; o commit inspecionado acima não comprova paridade com o host. Registrar essa correspondência e uma rodada completa no navegador antes de verificar nova release. Pyodide é dependência externa de primeira carga; recuperação de falha CDN e jogo totalmente offline não confirmados.
 
 ## Publicação e roadmap
 
