@@ -80,5 +80,3 @@ Sem LICENSE na raiz inspecionada. Não anunciar MIT antes de conferir direitos a
 - Quotes in the end-game art: Doug Scott and Albert Einstein.
 - Browser runtime: [Pyodide](https://pyodide.org) (CPython compiled to
   WebAssembly), loaded from the jsDelivr CDN.
-
-### Measured quality (live site, 2026-09-30, commit d855188)
