@@ -80,5 +80,3 @@ No root LICENSE exists in the inspected checkout. Do not advertise MIT until ori
 - Quotes in the end-game art: Doug Scott and Albert Einstein.
 - Browser runtime: [Pyodide](https://pyodide.org) (CPython compiled to
   WebAssembly), loaded from the jsDelivr CDN.
-
-### Measured quality (live site, 2026-09-30, commit d855188)
