@@ -2,23 +2,17 @@
 
 **English** | [Português (Brasil)](README.pt-BR.md)
 
-[![Open demo](https://img.shields.io/badge/demo-live-2ea44f)](https://treasure-hunt-due.pages.dev/web/)
-
 ## Demo
 
-[Open demo](https://treasure-hunt-due.pages.dev/web/)
+[![Open demo](https://img.shields.io/badge/demo-live-2ea44f)](https://treasure-hunt-due.pages.dev/web/)
 
 Open in your browser. No installation or terminal required.
 
 A Python treasure-grid game with a browser port using Pyodide. The terminal and browser share the game engine.
 
-Public academic project with a live demo.
-
 **Source / Código:** https://github.com/iurjoh/Treasure-Hunt
 
 **Inspected commit / Commit inspecionado:** `e5d1f48d40cc936cab7f459922984a7839d461a2`
-
-**Live demo:** https://treasure-hunt-due.pages.dev/web/
 
 Mobile capture prepared on 2026-10-08; repository upload is pending. No image embed is included until the asset exists.
 
@@ -81,7 +75,6 @@ No hosting account/cost settings or deployment branch were changed or freshly ve
 Code Institute PP3; original author Iuri Johansson; Pyodide runtime. Existing end-game quotations are credited to Doug Scott and Albert Einstein, not newly reverified.
 
 No root LICENSE exists in the inspected checkout. Do not advertise MIT until original-code rights and third-party terms are checked and a license is approved. No license changed.
-
 
 ## Retained original attributions
 
