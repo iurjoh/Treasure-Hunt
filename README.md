@@ -2,6 +2,14 @@
 
 **English** | [Português (Brasil)](README.pt-BR.md)
 
+[![Open demo](https://img.shields.io/badge/demo-live-2ea44f)](https://treasure-hunt-due.pages.dev/web/)
+
+## Demo
+
+[Open demo](https://treasure-hunt-due.pages.dev/web/)
+
+Open in your browser. No installation or terminal required.
+
 A Python treasure-grid game with a browser port using Pyodide. The terminal and browser share the game engine.
 
 Public academic project with a live demo.
