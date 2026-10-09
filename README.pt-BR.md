@@ -2,6 +2,14 @@
 
 **Português (Brasil)** | [English](README.md)
 
+[![Abrir demo](https://img.shields.io/badge/demo-live-2ea44f)](https://treasure-hunt-due.pages.dev/web/)
+
+## Demo
+
+[Abrir demo](https://treasure-hunt-due.pages.dev/web/)
+
+Abra no navegador, sem instalar nada ou usar o terminal.
+
 Jogo Python de caça ao tesouro em grade, com port web Pyodide. Terminal e navegador compartilham engine.
 
 Projeto acadêmico público com demo ao vivo.
