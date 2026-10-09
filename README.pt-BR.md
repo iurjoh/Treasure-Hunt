@@ -2,23 +2,17 @@
 
 **Português (Brasil)** | [English](README.md)
 
-[![Abrir demo](https://img.shields.io/badge/demo-live-2ea44f)](https://treasure-hunt-due.pages.dev/web/)
-
 ## Demo
 
-[Abrir demo](https://treasure-hunt-due.pages.dev/web/)
+[![Abrir demo](https://img.shields.io/badge/demo-live-2ea44f)](https://treasure-hunt-due.pages.dev/web/)
 
 Abra no navegador, sem instalar nada ou usar o terminal.
 
 Jogo Python de caça ao tesouro em grade, com port web Pyodide. Terminal e navegador compartilham engine.
 
-Projeto acadêmico público com demo ao vivo.
-
 **Source / Código:** https://github.com/iurjoh/Treasure-Hunt
 
 **Inspected commit / Commit inspecionado:** `e5d1f48d40cc936cab7f459922984a7839d461a2`
-
-**Live demo:** https://treasure-hunt-due.pages.dev/web/
 
 Captura mobile preparada em 08/10/2026; upload no repositório pendente. Sem imagem embutida até o asset existir.
 
@@ -81,7 +75,6 @@ Nenhuma configuração de host/custo/branch alterada ou reconferida. Página ace
 Code Institute PP3, autor Iuri Johansson, runtime Pyodide. Citações finais atribuídas a Doug Scott/Albert Einstein no registro anterior, sem reverificação.
 
 Sem LICENSE na raiz inspecionada. Não anunciar MIT antes de conferir direitos autorais/terceiros e aprovar licença. Nenhuma licença alterada.
-
 
 ## Atribuições originais preservadas
 
