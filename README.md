@@ -85,3 +85,16 @@ No root LICENSE exists in the inspected checkout. Do not advertise MIT until ori
 - Quotes in the end-game art: Doug Scott and Albert Einstein.
 - Browser runtime: [Pyodide](https://pyodide.org) (CPython compiled to
   WebAssembly), loaded from the jsDelivr CDN.
+
+## Technology and effort snapshot
+
+Captured from repository sources on 2026-10-14. This is a source snapshot, not a claim about production versions or the technology available at the original launch.
+
+- **Stack at this snapshot:** Python standard library for the game engine/CLI; Pyodide for the browser adapter. No exact browser runtime version is asserted by this snapshot.
+- **Earlier record:** The repository was recreated for the 2026 revival; the initial retained snapshot is not the date of the original academic game.
+- **Observed calendar window:** 2026-09-30 to 2026-10-09: surviving commits reachable from main. Calendar span, not continuous work or time to launch.
+- **Pull requests:** 2 visible PRs: 0 open, 2 closed, captured 2026-10-14 before this documentation change. Closed does not mean merged. Deleted/recreated history is excluded.
+- **Decision and reason:** One engine serves terminal and browser play, reducing duplicated rules; the web adapter removes the need for visitors to install Python.
+- **Estimated active effort:** unavailable. No reliable time log or bounded work-session reconstruction was established. Commit count and elapsed calendar time are not converted into hours.
+
+Evidence: current dependency/source files named above, retained Git history and the repository PR list. Versions and counts are fixed to this snapshot, not live counters.
