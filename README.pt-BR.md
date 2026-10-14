@@ -85,3 +85,16 @@ Sem LICENSE na raiz inspecionada. Não anunciar MIT antes de conferir direitos a
 - Quotes in the end-game art: Doug Scott and Albert Einstein.
 - Browser runtime: [Pyodide](https://pyodide.org) (CPython compiled to
   WebAssembly), loaded from the jsDelivr CDN.
+
+## Retrato da tecnologia e do esforço
+
+Registro das fontes do repositório em 2026-10-14. É um retrato do código, não uma afirmação sobre versões em produção nem sobre a tecnologia disponível no lançamento original.
+
+- **Stack neste registro:** Biblioteca padrão do Python no motor e terminal; Pyodide no adaptador para navegador. Este registro não afirma uma versão exata do runtime do navegador.
+- **Registro anterior:** O repositório foi recriado na retomada de 2026; o primeiro registro preservado não é a data do jogo acadêmico original.
+- **Janela de calendário observada:** 2026-09-30 a 2026-10-09: commits preservados e alcançáveis em main. Intervalo de calendário, não trabalho contínuo nem prazo até o lançamento.
+- **Pull requests:** 2 PRs visíveis: 0 abertos, 2 fechados, consultados em 2026-10-14 antes desta alteração. Fechado não significa mergeado. Histórico apagado/recriado não entra na contagem.
+- **Decisão e motivo:** Um motor atende terminal e navegador, reduzindo regras duplicadas; o adaptador web dispensa a instalação de Python pelo visitante.
+- **Estimativa de esforço ativo:** indisponível. Não foi estabelecido um registro confiável de tempo nem uma reconstrução delimitada das sessões de trabalho. Contagem de commits e tempo de calendário não são convertidos em horas.
+
+Evidências: arquivos de dependências/código citados acima, histórico Git preservado e lista de PRs do repositório. Versões e contagens pertencem a este registro, não são contadores ao vivo.
