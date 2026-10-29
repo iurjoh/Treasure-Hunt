@@ -64,19 +64,19 @@
     el.style.overflow = '';
     el.style.width = '';
     el.style.marginRight = '';
+    el.style.marginBottom = '';
     const avail = el.clientWidth;
     const need = el.scrollWidth;
     if (avail > 0 && need > avail) {
       const s = Math.max(avail / need, 0.3);
-      /* Scale shrinks the element's own box too, so sizing it to the
-         content width keeps overflow:hidden from clipping the art;
-         the negative margin keeps the layout footprint at avail. */
+      /* Scale shrinks the element's own box too, so size it to the
+         content and pull the layout footprint back with negative
+         margins: visual size = content * s, nothing self-clips. */
       el.style.width = need + 'px';
       el.style.marginRight = (-(need - avail)) + 'px';
       el.style.transformOrigin = 'left top';
       el.style.transform = 'scale(' + s + ')';
-      el.style.height = (el.scrollHeight * s) + 'px';
-      el.style.overflow = 'hidden';
+      el.style.marginBottom = (-(el.scrollHeight * (1 - s))) + 'px';
     }
   }
 
