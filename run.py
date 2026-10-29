@@ -13,8 +13,13 @@ Audit fixes (2026-09-30):
   replays the same map; N starts a new adventure).
 - P2: no unprotected while True wrappers; the engine owns the states.
 
+2026-10-29: bilingual EN/PT-BR. Without TREASURE_HUNT_LANG the first
+prompt asks for the language BEFORE the welcome text, so the greeting
+already appears in the chosen language.
+
 Environment hooks (used by the test suite, harmless for players):
 - TREASURE_HUNT_SEED: integer seed for deterministic chest placement.
+- TREASURE_HUNT_LANG: "en" or "pt"; skips the language-choice prompt.
 """
 
 import os
@@ -46,8 +51,9 @@ def _emit(outputs):
 def main():
     _configure_streams()
     seed = os.environ.get("TREASURE_HUNT_SEED")
-    rng = random.Random(int(seed)) if seed is not None else None
-    game = TreasureHunt(rng)
+    rng = random.Random(int(seed)) if seed else None
+    lang = os.environ.get("TREASURE_HUNT_LANG") or None
+    game = TreasureHunt(rng, lang=lang)
 
     _emit(game.start())
     while game.state != "done":

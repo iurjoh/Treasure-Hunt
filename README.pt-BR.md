@@ -26,6 +26,8 @@ Permitir testar PP3 sem instalar Python. Preservar regras, criar adapter web e c
 
 Grades Easy/Medium/Hard (3x3,5x5,9x9), 4/7/13 tentativas, repetir mapa, nova aventura e sair. Nome/estado locais da sessão.
 
+Inglês e português (Brasil): a primeira tela pergunta o idioma antes da saudação; `?lang=en` ou `?lang=pt` na URL web pula a escolha (adicionado em 29/10/2026).
+
 ## Arquitetura
 
 treasure_hunt.py engine; run.py CLI; web/index.html/adapter carregam Python/WebAssembly via CDN Pyodide. Sem backend próprio, mas há requests externos do runtime.

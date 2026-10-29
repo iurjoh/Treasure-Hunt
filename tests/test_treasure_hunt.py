@@ -48,7 +48,7 @@ for i in range(30):
 
 @pytest.mark.parametrize("name,size,chest", WIN_CASES)
 def test_win(name, size, chest):
-    game = TreasureHunt(rng=random.Random(0))
+    game = TreasureHunt(lang="en", rng=random.Random(0))
     game.start()
     out = collect(game, [name, SIZE_TO_LEVEL[size]])
     game.chest_row, game.chest_col = chest  # scripted chest placement
@@ -69,7 +69,7 @@ for i in range(30):
 
 @pytest.mark.parametrize("name,size,chest", LOSS_CASES)
 def test_loss(name, size, chest):
-    game = TreasureHunt(rng=random.Random(0))
+    game = TreasureHunt(lang="en", rng=random.Random(0))
     game.start()
     collect(game, [name, SIZE_TO_LEVEL[size]])
     game.chest_row, game.chest_col = chest  # scripted chest placement
@@ -96,7 +96,7 @@ def test_loss(name, size, chest):
 
 def test_replay_same_map_keeps_treasure():
     """P0 fix: R replays the SAME match - same size, same chest."""
-    game = TreasureHunt(rng=random.Random(7))
+    game = TreasureHunt(lang="en", rng=random.Random(7))
     game.start()
     collect(game, ["Iuri", "1"])
     chest = (game.chest_row, game.chest_col)
@@ -115,7 +115,7 @@ def test_replay_same_map_keeps_treasure():
 
 
 def test_new_adventure_asks_difficulty_and_quit_is_clean():
-    game = TreasureHunt(rng=random.Random(7))
+    game = TreasureHunt(lang="en", rng=random.Random(7))
     game.start()
     collect(game, ["Iuri", "1"])
     chest = (game.chest_row, game.chest_col)
@@ -137,7 +137,7 @@ def test_new_adventure_asks_difficulty_and_quit_is_clean():
 
 
 def test_menu_rejects_garbage():
-    game = TreasureHunt(rng=random.Random(7))
+    game = TreasureHunt(lang="en", rng=random.Random(7))
     game.start()
     collect(game, ["Iuri", "1"])
     chest = (game.chest_row, game.chest_col)
@@ -152,7 +152,7 @@ def test_menu_rejects_garbage():
 
 def test_eof_from_every_state_is_clean():
     for setup in (0, 1, 2, 3, 4):
-        game = TreasureHunt(rng=random.Random(7))
+        game = TreasureHunt(lang="en", rng=random.Random(7))
         game.start()
         script = ["Iuri", "1", "0", "0"][:setup]
         collect(game, script)
@@ -196,7 +196,7 @@ def test_fuzz_600_rounds_9_input_classes():
     """600 completed guess rounds; garbage never consumes a guess,
     no input ever crashes the engine or corrupts its state."""
     rng = random.Random(20260930)
-    game = TreasureHunt(rng=random.Random(rng.randrange(10**9)))
+    game = TreasureHunt(lang="en", rng=random.Random(rng.randrange(10**9)))
     game.start()
     collect(game, ["Fuzzer", "1"])
 
@@ -213,7 +213,7 @@ def test_fuzz_600_rounds_9_input_classes():
 
         if game.state == "done":
             games += 1
-            game = TreasureHunt(rng=random.Random(rng.randrange(10**9)))
+            game = TreasureHunt(lang="en", rng=random.Random(rng.randrange(10**9)))
             game.start()
             collect(game, ["Fuzzer", rng.choice(["1", "2", "3"])])
             last_guess = None
@@ -267,6 +267,7 @@ def test_fuzz_600_rounds_9_input_classes():
 def run_cli(stdin_text, env_extra=None, timeout=20):
     import os
     env = dict(os.environ)
+    env.setdefault("TREASURE_HUNT_LANG", "en")  # scripts below start at the name prompt
     env.update(env_extra or {})
     return subprocess.run(
         [sys.executable, str(ROOT / "run.py")],
@@ -324,3 +325,172 @@ def test_cli_replay_same_map_wins_again():
     proc = run_cli(script, env_extra={"TREASURE_HUNT_SEED": str(seed)})
     assert proc.returncode == 0
     assert proc.stdout.count("Congratulations") == 2
+
+
+# ------------------------------------------------ bilingual (2026-10-29)
+
+from treasure_hunt import (  # noqa: E402
+    BANNER,
+    LANG_MENU,
+    LANG_PROMPT,
+    LOSS_ART,
+    STRINGS,
+    WIN_ART,
+)
+
+
+def make_pt_game(seed=7):
+    game = TreasureHunt(rng=random.Random(seed))
+    game.start()
+    collect(game, ["2"])  # Português (Brasil)
+    return game
+
+
+def test_language_is_asked_before_the_welcome():
+    """Owner request: the selector comes BEFORE 'Welcome explorer!';
+    the greeting already appears in the chosen language."""
+    game = TreasureHunt(rng=random.Random(0))
+    out = game.start()
+    assert game.state == "lang"
+    text = joined(out)
+    assert "Escolha seu idioma" in text
+    assert "Welcome explorer" not in text  # greeting only after the choice
+
+    out = collect(game, ["9"])  # invalid answer stays at the selector
+    assert game.state == "lang"
+    assert "Escolha inválida" in joined(out)
+
+    out = collect(game, ["1"])
+    assert game.state == "name"
+    assert game.lang == "en"
+    assert "Welcome explorer! Please, enter your name" in joined(out)
+
+    game = TreasureHunt(rng=random.Random(0))
+    game.start()
+    out = collect(game, ["2"])
+    assert game.lang == "pt"
+    assert "Boas-vindas" in joined(out)
+    assert "Welcome explorer" not in joined(out)
+
+
+def test_lang_kwarg_skips_the_selector():
+    game = TreasureHunt(lang="pt", rng=random.Random(0))
+    out = game.start()
+    assert game.state == "name"
+    assert "Boas-vindas" in joined(out)
+    with pytest.raises(ValueError):
+        TreasureHunt(lang="fr")
+
+
+def test_pt_full_round_win_replay_and_quit():
+    """Full PT-BR session: accented name, win, R replay same map, S quits."""
+    game = make_pt_game()
+    out = collect(game, ["José", "1"])  # isalpha() accepts accents
+    assert game.name == "José"
+    assert "Fácil" in joined(out) or "Tabuleiro: 3x3" in joined(out)
+    chest = (game.chest_row, game.chest_col)
+    out = collect(game, [str(chest[0]), str(chest[1])])
+    text = joined(out)
+    assert "Parabéns, José! Você encontrou o tesouro!" in text
+    assert "― Doug Scott" in text and "A história pode ser exata" in text
+    assert "S - Sair" in text
+
+    out = collect(game, ["R"])  # replay keeps the same map, in PT
+    assert (game.chest_row, game.chest_col) == chest
+    assert "Mesmo mapa" in joined(out)
+    collect(game, [str(chest[0]), str(chest[1])])
+    out = collect(game, ["S"])
+    assert game.state == "done"
+    assert "Obrigado por jogar! Volte em breve!" in joined(out)
+
+
+def test_pt_quit_also_accepts_q():
+    game = make_pt_game()
+    collect(game, ["Ana", "1"])
+    chest = (game.chest_row, game.chest_col)
+    collect(game, [str(chest[0]), str(chest[1])])
+    out = collect(game, ["q"])  # lowercase Q still quits in PT
+    assert game.state == "done"
+    assert "Obrigado por jogar" in joined(out)
+
+
+def test_pt_loss_path_and_reveal():
+    game = make_pt_game()
+    collect(game, ["Bia", "1"])
+    game.chest_row, game.chest_col = (2, 2)
+    out = collect(game, ["0", "0", "0", "1", "1", "0", "1", "1"])
+    text = joined(out)
+    assert game.state == "menu"
+    assert "Albert Einstein" in text and "em progresso" in text
+    assert "Você não encontrou o tesouro desta vez" in text
+    assert "O tesouro estava escondido na posição (2, 2)." in text
+
+
+def test_pt_error_messages():
+    game = make_pt_game()
+    out = collect(game, ["João2", "Maria Clara"])
+    text = joined(out)
+    assert "Nome inválido" in text
+    assert game.state == "name"
+    collect(game, ["Clara"])
+    out = collect(game, ["7"])
+    assert "Escolha inválida" in joined(out)
+    collect(game, ["1"])
+    out = collect(game, ["x", "9"])
+    text = joined(out)
+    assert "Opção inválida" in text
+    assert "fora do mapa" in text
+    collect(game, ["0", "0"])
+    out = collect(game, ["0", "0"])
+    assert "já foi explorado" in joined(out)
+
+
+def test_en_strings_unchanged_by_bilingual_refactor():
+    """Regression guard: the EN pack stays byte-identical to the
+    pre-bilingual engine, and EN art keeps the original quotes."""
+    en = STRINGS["en"]
+    assert en["name_prompt"] == "Welcome explorer! Please, enter your name (only letters): "
+    assert en["farewell"] == "Thanks for playing! Come back soon!"
+    assert en["invalid_menu"] == "Invalid input. Please, enter R, N or Q."
+    assert en["win"] == "Congratulations explorer {name}! You found the treasure!"
+    assert en["win_art"] == WIN_ART and "History may be accurate" in en["win_art"]
+    assert en["loss_art"] == LOSS_ART and '"Failure' in en["loss_art"]
+    assert "O fracasso" in STRINGS["pt"]["loss_art"]
+    assert "A história" in STRINGS["pt"]["win_art"]
+
+
+def test_eof_before_language_choice_is_clean():
+    game = TreasureHunt(rng=random.Random(0))
+    game.start()
+    out = game.eof()
+    assert game.state == "done"
+    assert "Input closed" in joined(out)  # EN fallback, menu stays bilingual
+
+
+def test_static_first_paint_matches_engine_lang_screen():
+    """web/index.html ships the language screen statically; it must stay
+    in sync with BANNER + LANG_MENU + LANG_PROMPT (see the HTML comment)."""
+    html = (ROOT / "web" / "index.html").read_text(encoding="utf-8")
+    assert BANNER.splitlines()[0] in html
+    for line in LANG_MENU.splitlines():
+        assert line in html
+    assert LANG_PROMPT in html
+    # the old English-only name prompt must NOT be the static paint anymore
+    assert STRINGS["en"]["name_prompt"] not in html
+
+
+def test_cli_full_win_pt_via_selector():
+    """Deterministic PT-BR win through the real CLI, choosing '2' first."""
+    seed = 42
+    probe = random.Random(seed)
+    chest = (probe.randrange(3), probe.randrange(3))
+    script = f"2\nJosé\n1\n{chest[0]}\n{chest[1]}\nS\n"
+    proc = run_cli(script, env_extra={
+        "TREASURE_HUNT_SEED": str(seed),
+        "TREASURE_HUNT_LANG": "",  # empty = exercise the real selector
+    })
+    assert proc.returncode == 0
+    assert "Traceback" not in proc.stderr
+    assert "Escolha seu idioma" in proc.stdout
+    assert "Parabéns, José! Você encontrou o tesouro!" in proc.stdout
+    assert "Obrigado por jogar! Volte em breve!" in proc.stdout
