@@ -26,6 +26,8 @@ Make the original PP3 terminal game accessible to portfolio visitors without a l
 
 Easy/Medium/Hard boards (3x3, 5x5, 9x9), 4/7/13 guesses, replay same map, new adventure and quit. Names and game state are local to the session.
 
+English and Portuguese (Brazil): the first screen asks the language before the welcome text; `?lang=en` or `?lang=pt` on the web URL skips the choice (added 2026-10-29).
+
 ## Architecture
 
 treasure_hunt.py is the state engine; run.py is CLI; web/index.html and adapter load Python/WebAssembly from the Pyodide CDN. No custom server backend, but external runtime requests exist.

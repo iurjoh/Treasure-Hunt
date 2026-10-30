@@ -1,7 +1,12 @@
 /* Treasure Hunt web front-end (main thread).
  * Talks to worker.js, which runs the same treasure_hunt.py engine as the
- * CLI inside Pyodide. URL hook for tests: ?seed=42 makes the treasure
- * deterministic.
+ * CLI inside Pyodide.
+ * URL hooks for tests and shareable links:
+ *   ?seed=42       makes the treasure deterministic
+ *   ?lang=pt|en    skips the language selector (greeting included)
+ * Without ?lang, the first screen asks the language BEFORE the welcome
+ * text; after the choice the page chrome (button, aria labels, status
+ * lines, <html lang>) switches to the chosen language.
  */
 (() => {
   const screen = document.getElementById('screen');
@@ -19,6 +24,33 @@
     text: 'line text',
   };
 
+  // Page chrome only; every in-game string comes from the engine.
+  const UI_STRINGS = {
+    en: {
+      send: 'Send',
+      answer: 'Your answer',
+      gameOver: 'Game over. Reload the page to play again.',
+      loadFail: 'Could not load the game. Check your connection and reload.',
+      workerFail: 'Could not start the game worker: ',
+    },
+    pt: {
+      send: 'Enviar',
+      answer: 'Sua resposta',
+      gameOver: 'Fim de jogo. Recarregue a página para jogar de novo.',
+      loadFail: 'Não foi possível carregar o jogo. Verifique sua conexão e recarregue.',
+      workerFail: 'Não foi possível iniciar o jogo: ',
+    },
+  };
+  let ui = null; // null until the player picks a language
+
+  function applyLang(lang) {
+    if (!UI_STRINGS[lang]) return;
+    ui = UI_STRINGS[lang];
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+    send.textContent = ui.send;
+    entry.setAttribute('aria-label', ui.answer);
+  }
+
   function scrollDown() {
     requestAnimationFrame(() => window.scrollTo(0, document.body.scrollHeight));
   }
@@ -30,14 +62,21 @@
     el.style.transform = '';
     el.style.height = '';
     el.style.overflow = '';
+    el.style.width = '';
+    el.style.marginRight = '';
+    el.style.marginBottom = '';
     const avail = el.clientWidth;
     const need = el.scrollWidth;
     if (avail > 0 && need > avail) {
       const s = Math.max(avail / need, 0.3);
+      /* Scale shrinks the element's own box too, so size it to the
+         content and pull the layout footprint back with negative
+         margins: visual size = content * s, nothing self-clips. */
+      el.style.width = need + 'px';
+      el.style.marginRight = (-(need - avail)) + 'px';
       el.style.transformOrigin = 'left top';
       el.style.transform = 'scale(' + s + ')';
-      el.style.height = (el.scrollHeight * s) + 'px';
-      el.style.overflow = 'hidden';
+      el.style.marginBottom = (-(el.scrollHeight * (1 - s))) + 'px';
     }
   }
 
@@ -80,14 +119,20 @@
     status.style.color = '#f85149';
   }
 
-  const seedParam = new URLSearchParams(location.search).get('seed');
+  const params = new URLSearchParams(location.search);
+  const seedParam = params.get('seed');
   const seed = seedParam === null ? null : parseInt(seedParam, 10);
+  const langParam = (params.get('lang') || '').toLowerCase().replace('_', '-');
+  const lang = langParam === 'en' ? 'en'
+    : (langParam === 'pt' || langParam === 'pt-br') ? 'pt'
+    : null;
+
   const t0 = performance.now();
   let worker;
   try {
     worker = new Worker('worker.js');
   } catch (err) {
-    fail('Could not start the game worker: ' + err.message);
+    fail((ui || UI_STRINGS.en).workerFail + err.message);
     return;
   }
 
@@ -95,6 +140,13 @@
     const msg = event.data;
     if (msg.type === 'ready') {
       window.__timeToPlayable = Math.round(performance.now() - t0);
+      if (msg.lang) applyLang(msg.lang);
+      if (lang !== null) {
+        // ?lang= skipped the selector: the static paint shows the language
+        // menu, so replace it with the engine's real first screen.
+        screen.textContent = '';
+        render(msg.startOutputs);
+      }
       status.textContent = '';
       entry.disabled = false;
       send.disabled = false;
@@ -102,17 +154,18 @@
       return;
     }
     if (msg.type === 'outputs') {
+      if (msg.lang) applyLang(msg.lang);
       render(msg.outputs);
       refresh(msg.state);
       return;
     }
     if (msg.type === 'error') {
-      fail('Could not load the game. Check your connection and reload. (' + msg.message + ')');
+      fail((ui || UI_STRINGS.en).loadFail + ' (' + msg.message + ')');
     }
   };
 
   worker.onerror = (event) => {
-    fail('Could not load the game. Check your connection and reload.');
+    fail((ui || UI_STRINGS.en).loadFail);
     console.error(event.message);
   };
 
@@ -121,7 +174,7 @@
     if (state === 'done') {
       entry.disabled = true;
       send.disabled = true;
-      status.textContent = 'Game over. Reload the page to play again.';
+      status.textContent = (ui || UI_STRINGS.en).gameOver;
     }
     entry.focus();
   }
@@ -135,5 +188,5 @@
     worker.postMessage({ type: 'submit', value });
   });
 
-  worker.postMessage({ type: 'init', seed });
+  worker.postMessage({ type: 'init', seed, lang });
 })();
